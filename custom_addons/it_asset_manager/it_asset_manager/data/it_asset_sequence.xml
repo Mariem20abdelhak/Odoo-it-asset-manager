@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="seq_it_asset" model="ir.sequence">
+        <field name="name">Séquence Asset IT</field>
+        <field name="code">it.asset</field>
+        <field name="prefix">ASSET/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+</odoo>

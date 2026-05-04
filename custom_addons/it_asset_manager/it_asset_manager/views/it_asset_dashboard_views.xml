@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_it_asset_graph_category" model="ir.ui.view">
+        <field name="name">it.asset.graph.category</field>
+        <field name="model">it.asset</field>
+        <field name="arch" type="xml">
+            <graph string="Assets par catégorie" type="pie">
+                <field name="category_id"/>
+                <field name="name" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="view_it_asset_pivot" model="ir.ui.view">
+        <field name="name">it.asset.pivot</field>
+        <field name="model">it.asset</field>
+        <field name="arch" type="xml">
+            <pivot string="Analyse du parc">
+                <field name="category_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="purchase_price" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="action_it_asset_dashboard" model="ir.actions.act_window">
+        <field name="name">Tableau de bord</field>
+        <field name="res_model">it.asset</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="domain">[('state','!=','retired')]</field>
+    </record>
+</odoo>

@@ -1,0 +1,19 @@
+/* IT Asset Manager — styles dashboard */
+
+.o_it_asset_kanban .o_kanban_record {
+    transition: box-shadow 0.15s ease;
+}
+
+.o_it_asset_kanban .o_kanban_record:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Badges état dans les vues list */
+.badge_available  { background-color: #28a745 !important; }
+.badge_assigned   { background-color: #17a2b8 !important; }
+.badge_maintenance { background-color: #ffc107 !important; color: #212529 !important; }
+.badge_retired    { background-color: #6c757d !important; }
+
+/* Alertes garantie */
+.warranty_expiring td { background-color: #fff3cd !important; }
+.warranty_expired  td { background-color: #f8d7da !important; }

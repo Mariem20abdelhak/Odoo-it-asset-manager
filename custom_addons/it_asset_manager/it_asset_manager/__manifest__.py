@@ -1,0 +1,32 @@
+{
+    'name': 'IT Asset Manager',
+    'version': '17.0.1.0.0',
+    'category': 'Technical',
+    'summary': 'Gestion de parc informatique — assets, affectations, maintenance, garanties',
+    'author': 'Votre Nom',
+    'website': 'https://github.com/votre-compte/it_asset_manager',
+    'license': 'LGPL-3',
+    'depends': ['base', 'mail', 'hr', 'helpdesk'],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/it_asset_security.xml',
+        'data/it_asset_sequence.xml',
+        'data/it_asset_cron.xml',
+        'views/it_asset_category_views.xml',
+        'views/it_asset_views.xml',
+        'views/it_asset_assignment_views.xml',
+        'views/it_asset_dashboard_views.xml',
+        'views/res_partner_views.xml',
+        'views/hr_employee_views.xml',
+        'views/menus.xml',
+        'report/it_asset_report.xml',
+        'report/it_asset_report_template.xml',
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'it_asset_manager/static/src/css/dashboard.css',
+        ],
+    },
+    'installable': True,
+    'application': True,
+}

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- FORM -->
+    <record id="view_it_asset_form" model="ir.ui.view">
+        <field name="name">it.asset.form</field>
+        <field name="model">it.asset</field>
+        <field name="arch" type="xml">
+            <form string="Asset IT">
+                <header>
+                    <button name="action_assign" string="Affecter" type="object"
+                            class="btn-primary" invisible="state != 'available'"/>
+                    <button name="action_set_maintenance" string="Mettre en maintenance"
+                            type="object" invisible="state not in ['available','assigned']"/>
+                    <button name="action_set_available" string="Remettre en stock"
+                            type="object" invisible="state not in ['assigned','maintenance']"/>
+                    <button name="action_retire" string="Retraiter"
+                            type="object" invisible="state == 'retired'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="available,assigned,maintenance,retired"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_assignments" type="object"
+                                class="oe_stat_button" icon="fa-history">
+                            <field name="assignment_count" widget="statinfo" string="Affectations"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Nom de l'asset…"/></h1>
+                        <div><field name="reference" readonly="1" class="text-muted"/></div>
+                    </div>
+                    <group>
+                        <group string="Identification">
+                            <field name="category_id"/>
+                            <field name="brand"/>
+                            <field name="model_name"/>
+                            <field name="serial_number"/>
+                            <field name="condition"/>
+                        </group>
+                        <group string="Affectation">
+                            <field name="employee_id"/>
+                            <field name="location"/>
+                            <field name="supplier_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Garantie">
+                            <field name="purchase_date"/>
+                            <field name="warranty_end_date"/>
+                            <field name="warranty_status" widget="badge"
+                                   decoration-success="warranty_status == 'valid'"
+                                   decoration-warning="warranty_status == 'expiring'"
+                                   decoration-danger="warranty_status == 'expired'"
+                                   decoration-muted="warranty_status == 'none'"/>
+                            <field name="days_until_warranty_end"
+                                   invisible="warranty_status == 'none'"
+                                   string="Jours restants"/>
+                        </group>
+                        <group string="Financier">
+                            <field name="purchase_price"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Historique des affectations" name="assignments">
+                            <field name="assignment_ids" mode="list">
+                                <list>
+                                    <field name="employee_id"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="is_active" widget="boolean_toggle"/>
+                                    <button name="action_return_asset" string="Retourner"
+                                            type="object" icon="fa-undo"
+                                            invisible="not is_active"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes techniques" name="notes">
+                            <field name="notes"
+                                   placeholder="Documentation technique, configuration…"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- LIST -->
+    <record id="view_it_asset_list" model="ir.ui.view">
+        <field name="name">it.asset.list</field>
+        <field name="model">it.asset</field>
+        <field name="arch" type="xml">
+            <list string="Assets IT"
+                  decoration-warning="warranty_status == 'expiring'"
+                  decoration-muted="state == 'retired'">
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="brand"/>
+                <field name="model_name"/>
+                <field name="serial_number"/>
+                <field name="employee_id"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'available'"
+                       decoration-info="state == 'assigned'"
+                       decoration-warning="state == 'maintenance'"
+                       decoration-muted="state == 'retired'"/>
+                <field name="warranty_status" widget="badge"
+                       decoration-success="warranty_status == 'valid'"
+                       decoration-warning="warranty_status == 'expiring'"
+                       decoration-danger="warranty_status == 'expired'"/>
+                <field name="warranty_end_date" optional="show"/>
+                <field name="purchase_price" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- KANBAN -->
+    <record id="view_it_asset_kanban" model="ir.ui.view">
+        <field name="name">it.asset.kanban</field>
+        <field name="model">it.asset</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="category_id" quick_create="false">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="warranty_status"/>
+                <field name="employee_id"/>
+                <field name="brand"/>
+                <field name="model_name"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex align-items-center justify-content-between mb-1">
+                            <strong><field name="name"/></strong>
+                            <field name="state" widget="label_selection"
+                                   options="{'classes': {'available': 'success', 'assigned': 'info', 'maintenance': 'warning', 'retired': 'muted'}}"/>
+                        </div>
+                        <div class="text-muted small">
+                            <t t-if="record.brand.value"><t t-esc="record.brand.value"/> </t>
+                            <t t-if="record.model_name.value"><t t-esc="record.model_name.value"/></t>
+                        </div>
+                        <div t-if="record.employee_id.value" class="mt-1">
+                            <i class="fa fa-user me-1"/>
+                            <field name="employee_id"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- SEARCH -->
+    <record id="view_it_asset_search" model="ir.ui.view">
+        <field name="name">it.asset.search</field>
+        <field name="model">it.asset</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher un asset">
+                <field name="name" string="Asset"
+                       filter_domain="['|',('name','ilike',self),('reference','ilike',self)]"/>
+                <field name="serial_number"/>
+                <field name="employee_id"/>
+                <field name="category_id"/>
+                <separator/>
+                <filter name="available" string="Disponible" domain="[('state','=','available')]"/>
+                <filter name="assigned" string="Affecté" domain="[('state','=','assigned')]"/>
+                <filter name="maintenance" string="En maintenance" domain="[('state','=','maintenance')]"/>
+                <filter name="warranty_expiring" string="Garantie expire bientôt"
+                        domain="[('warranty_status','=','expiring')]"/>
+                <filter name="warranty_expired" string="Garantie expirée"
+                        domain="[('warranty_status','=','expired')]"/>
+                <separator/>
+                <filter name="my_assets" string="Mes assets"
+                        domain="[('employee_id.user_id','=',uid)]"/>
+                <group expand="0" string="Grouper par">
+                    <filter name="group_category" string="Catégorie"
+                            context="{'group_by': 'category_id'}"/>
+                    <filter name="group_state" string="État"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_employee" string="Employé"
+                            context="{'group_by': 'employee_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_it_asset" model="ir.actions.act_window">
+        <field name="name">Assets IT</field>
+        <field name="res_model">it.asset</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_it_asset_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Ajoutez votre premier asset IT</p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_it_asset_category_user,it.asset.category user,model_it_asset_category,it_asset_manager.group_it_asset_user,1,0,0,0
+access_it_asset_category_manager,it.asset.category manager,model_it_asset_category,it_asset_manager.group_it_asset_manager,1,1,1,1
+access_it_asset_user,it.asset user,model_it_asset,it_asset_manager.group_it_asset_user,1,0,0,0
+access_it_asset_manager,it.asset manager,model_it_asset,it_asset_manager.group_it_asset_manager,1,1,1,1
+access_it_asset_assignment_user,it.asset.assignment user,model_it_asset_assignment,it_asset_manager.group_it_asset_user,1,0,0,0
+access_it_asset_assignment_manager,it.asset.assignment manager,model_it_asset_assignment,it_asset_manager.group_it_asset_manager,1,1,1,1
