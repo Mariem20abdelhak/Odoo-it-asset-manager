@@ -3,6 +3,9 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
+ASSET_ASSIGNMENT_MODEL = 'it.asset.assignment'
+
+
 class ItAsset(models.Model):
     _name = 'it.asset'
     _description = 'Asset informatique'
@@ -48,7 +51,7 @@ class ItAsset(models.Model):
     # ── Affectation ─────────────────────────────────────────────────────────────
     employee_id = fields.Many2one('hr.employee', string='Employé affecté', tracking=True)
     location = fields.Char(string='Emplacement physique', tracking=True)
-    assignment_ids = fields.One2many('it.asset.assignment', 'asset_id', string="Historique d'affectations")
+    assignment_ids = fields.One2many(ASSET_ASSIGNMENT_MODEL, 'asset_id', string="Historique d'affectations")
     assignment_count = fields.Integer(string='Affectations', compute='_compute_assignment_count')
     notes = fields.Html(string='Notes techniques')
 
@@ -112,7 +115,7 @@ class ItAsset(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _("Affecter l'asset"),
-            'res_model': 'it.asset.assignment',
+            'res_model': ASSET_ASSIGNMENT_MODEL,
             'view_mode': 'form',
             'target': 'new',
             'context': {
@@ -138,7 +141,7 @@ class ItAsset(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _("Historique des affectations"),
-            'res_model': 'it.asset.assignment',
+            'res_model': ASSET_ASSIGNMENT_MODEL,
             'view_mode': 'list,form',
             'domain': [('asset_id', '=', self.id)],
         }

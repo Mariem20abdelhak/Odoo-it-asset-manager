@@ -4,7 +4,7 @@
     'category': 'Technical',
     'summary': 'Gestion de parc informatique — assets, affectations, maintenance, garanties',
     'author': 'Votre Nom',
-    'website': 'https://github.com/votre-compte/it_asset_manager',
+    'website': 'https://github.com/Mariem20abdelhak/Odoo-it-asset-manager',
     'license': 'LGPL-3',
     'depends': ['base', 'mail', 'hr', 'helpdesk'],
     'data': [
