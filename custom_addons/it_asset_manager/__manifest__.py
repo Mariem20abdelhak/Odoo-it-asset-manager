@@ -3,7 +3,7 @@
     'version': '17.0.1.0.0',
     'category': 'Technical',
     'summary': 'Gestion de parc informatique — assets, affectations, maintenance, garanties',
-    'author': 'Votre Nom',
+    'author': 'Mariem ABDELHAK',
     'website': 'https://github.com/Mariem20abdelhak/Odoo-it-asset-manager/tree/17.0',
     'license': 'LGPL-3',
     'depends': ['base', 'mail', 'hr', 'helpdesk'],
