@@ -35,10 +35,10 @@
 
 ```bash
 # 1. Cloner dans le dossier addons de votre instance Odoo
-git clone https://github.com/votre-compte/it_asset_manager.git /path/to/odoo/addons/
+git clone https://github.com/Mariem20abdelhak/Odoo-it-asset-manager/tree/17.0/custom_addons/it_asset_manager
 
 # 2. Redémarrer Odoo avec mise à jour
-./odoo-bin -u it_asset_manager -d votre_base
+./odoo-bin -u it_asset_manager -d myodoo
 
 # 3. Activer le mode développeur dans Odoo
 # Paramètres > Activer le mode développeur
@@ -91,7 +91,7 @@ it_asset_manager/
 ## Lancer les tests
 
 ```bash
-./odoo-bin --test-tags it_asset -d votre_base --stop-after-init
+./odoo-bin --test-tags it_asset_manager -d myodoo --stop-after-init
 ```
 
 ---
@@ -110,4 +110,4 @@ it_asset_manager/
 
 ## Auteur
 
-**Votre Nom** — [LinkedIn](https://linkedin.com/in/votre-profil) · [GitHub](https://github.com/votre-compte)
+**Votre Nom** — [LinkedIn](https://www.linkedin.com/in/abdelhak-mariem-200114213/) · [GitHub](https://github.com/Mariem20abdelhak)
