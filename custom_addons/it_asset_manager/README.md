@@ -110,4 +110,4 @@ it_asset_manager/
 
 ## Auteur
 
-**Votre Nom** — [LinkedIn](https://www.linkedin.com/in/abdelhak-mariem-200114213/) · [GitHub](https://github.com/Mariem20abdelhak)
+**Mariem Abdelhak** — [LinkedIn](https://www.linkedin.com/in/abdelhak-mariem-200114213/) · [GitHub](https://github.com/Mariem20abdelhak)
