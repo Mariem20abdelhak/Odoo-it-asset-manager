@@ -8,11 +8,12 @@ class ItAssetCategory(models.Model):
 
     name = fields.Char(string='Catégorie', required=True, translate=True)
     code = fields.Char(string='Code', size=10,
-    help="Code court utilisé dans la référence (ex: PC, SRV, TEL)")
+                        help="Code court utilisé dans la référence (ex: PC, SRV, TEL)")
     description = fields.Text(string='Description')
     color = fields.Integer(string='Couleur')
     asset_ids = fields.One2many('it.asset', 'category_id', string='Assets')
-    asset_count = fields.Integer(string="Nombre d'assets", compute='_compute_asset_count')
+    asset_count = fields.Integer(
+        string="Nombre d'assets", compute='_compute_asset_count')
 
     def _compute_asset_count(self):
         for rec in self:

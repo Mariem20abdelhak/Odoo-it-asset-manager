@@ -6,7 +6,6 @@
         <field name="arch" type="xml">
             <graph string="Assets par catégorie" type="pie">
                 <field name="category_id"/>
-                <field name="name" type="measure"/>
             </graph>
         </field>
     </record>
@@ -24,7 +23,7 @@
     <record id="action_it_asset_dashboard" model="ir.actions.act_window">
         <field name="name">Tableau de bord</field>
         <field name="res_model">it.asset</field>
-        <field name="view_mode">graph,pivot,list</field>
+        <field name="view_mode">graph,pivot,tree</field>
         <field name="domain">[('state','!=','retired')]</field>
     </record>
 </odoo>

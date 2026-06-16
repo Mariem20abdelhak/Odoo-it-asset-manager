@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_it_asset_root" name="Parc IT" sequence="90"
-              groups="it_asset_manager.group_it_asset_user"/>
-    <menuitem id="menu_it_asset_dashboard" name="Tableau de bord"
-              parent="menu_it_asset_root" action="action_it_asset_dashboard" sequence="10"/>
-    <menuitem id="menu_it_asset_main" name="Assets"
-              parent="menu_it_asset_root" sequence="20"/>
-    <menuitem id="menu_it_asset_all" name="Tous les assets"
-              parent="menu_it_asset_main" action="action_it_asset" sequence="10"/>
-    <menuitem id="menu_it_asset_assignment" name="Affectations actives"
-              parent="menu_it_asset_main" action="action_it_asset_assignment" sequence="20"/>
-    <menuitem id="menu_it_asset_config" name="Configuration"
-              parent="menu_it_asset_root" sequence="90"
-              groups="it_asset_manager.group_it_asset_manager"/>
-    <menuitem id="menu_it_asset_category" name="Catégories"
-              parent="menu_it_asset_config" action="action_it_asset_category" sequence="10"/>
+        <menuitem id="menu_it_asset_root" name="Parc IT" sequence="90"
+                groups="it_asset_manager.group_it_asset_user"/>
+        <menuitem id="menu_it_asset_dashboard" name="Tableau de bord"
+                parent="menu_it_asset_root" action="action_it_asset_dashboard" sequence="10"/>
+        <menuitem id="menu_it_asset_main" name="Assets"
+                parent="menu_it_asset_root" sequence="20"/>
+        <menuitem id="menu_it_asset_all" name="Tous les assets"
+                parent="menu_it_asset_main" action="action_it_asset" sequence="10"/>
+        <menuitem id="menu_it_asset_assignment" name="Affectations actives"
+                parent="menu_it_asset_main" action="action_it_asset_assignment" sequence="20"/>
+        <menuitem id="menu_it_asset_config" name="Configuration"
+                parent="menu_it_asset_root" sequence="90"
+                groups="it_asset_manager.group_it_asset_manager"/>
+        <menuitem id="menu_it_asset_category" name="Catégories"
+                parent="menu_it_asset_config" action="action_it_asset_category" sequence="10"/>
 </odoo>

@@ -6,10 +6,10 @@
     'author': 'Mariem ABDELHAK',
     'website': 'https://github.com/Mariem20abdelhak/Odoo-it-asset-manager/tree/17.0',
     'license': 'LGPL-3',
-    'depends': ['base', 'mail', 'hr', 'helpdesk'],
+    'depends': ['base', 'mail', 'hr'],
     'data': [
-        'security/ir.model.access.csv',
         'security/it_asset_security.xml',
+        'security/ir.model.access.csv',
         'data/it_asset_sequence.xml',
         'data/it_asset_cron.xml',
         'views/it_asset_category_views.xml',

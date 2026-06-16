@@ -12,15 +12,16 @@ class ItAsset(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'name'
 
-    # ── Identification ──────────────────────────────────────────────────────────
+    # ── Identification ──────────────────────────────────────────────
     name = fields.Char(string='Nom', required=True, tracking=True)
     reference = fields.Char(string='Référence', readonly=True, copy=False, default='Nouveau')
-    category_id = fields.Many2one('it.asset.category', string='Catégorie',required=True, tracking=True, ondelete='restrict')
+    assignment_ids = fields.One2many('it.asset.assignment','asset_id', string='Historique des affectations')
+    category_id = fields.Many2one('it.asset.category', string='Catégorie', required=True, tracking=True, ondelete='restrict')
     brand = fields.Char(string='Marque', tracking=True)
     model_name = fields.Char(string='Modèle', tracking=True)
     serial_number = fields.Char(string='Numéro de série', tracking=True, copy=False)
 
-    # ── État ────────────────────────────────────────────────────────────────────
+    # ── État ───────────────────────────────────────────────────────────
     state = fields.Selection([
         ('available', 'Disponible'),
         ('assigned', 'Affecté'),
@@ -32,7 +33,7 @@ class ItAsset(models.Model):
         ('new', 'Neuf'), ('good', 'Bon état'), ('fair', 'État correct'), ('poor', 'Mauvais état'),
     ], string='Condition', default='new', tracking=True)
 
-    # ── Garantie ────────────────────────────────────────────────────────────────
+    # ── Garantie ────────────────────────────────────────────────────────
     purchase_date = fields.Date(string="Date d'achat", tracking=True)
     warranty_end_date = fields.Date(string='Fin de garantie', tracking=True)
     warranty_status = fields.Selection([
@@ -43,19 +44,19 @@ class ItAsset(models.Model):
         string='Jours avant fin de garantie',
         compute='_compute_warranty_status', store=True)
 
-    # ── Financier ───────────────────────────────────────────────────────────────
+    # ── Financier ───────────────────────────────────────────────────────
     purchase_price = fields.Float(string="Prix d'achat", digits=(10, 2), tracking=True)
-    currency_id = fields.Many2one('res.currency', string='Devise',default=lambda self: self.env.company.currency_id)
-    supplier_id = fields.Many2one('res.partner', string='Fournisseur',domain=[('supplier_rank', '>', 0)])
+    currency_id = fields.Many2one('res.currency', string='Devise', default=lambda self: self.env.company.currency_id)
+    supplier_id = fields.Many2one('res.partner', string='Fournisseur')
 
-    # ── Affectation ─────────────────────────────────────────────────────────────
+    # ── Affectation ─────────────────────────────────────────────────
     employee_id = fields.Many2one('hr.employee', string='Employé affecté', tracking=True)
     location = fields.Char(string='Emplacement physique', tracking=True)
     assignment_ids = fields.One2many(ASSET_ASSIGNMENT_MODEL, 'asset_id', string="Historique d'affectations")
     assignment_count = fields.Integer(string='Affectations', compute='_compute_assignment_count')
     notes = fields.Html(string='Notes techniques')
 
-    # ── Computed ────────────────────────────────────────────────────────────────
+    # ── Computed ─────────────────────────────────────────────────────────────
     @api.depends('warranty_end_date')
     def _compute_warranty_status(self):
         today = date.today()
@@ -77,7 +78,7 @@ class ItAsset(models.Model):
         for asset in self:
             asset.assignment_count = len(asset.assignment_ids)
 
-    # ── Séquence ────────────────────────────────────────────────────────────────
+    # ── Séquence ───────────────────────────────────────────────────────────
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -85,7 +86,7 @@ class ItAsset(models.Model):
                 vals['reference'] = self.env['ir.sequence'].next_by_code('it.asset') or 'Nouveau'
         return super().create(vals_list)
 
-    # ── Contraintes ─────────────────────────────────────────────────────────────
+    # ── Contraintes ──────────────────────────────────────────────────────────
     @api.constrains('serial_number')
     def _check_serial_number_unique(self):
         for asset in self:
@@ -109,7 +110,7 @@ class ItAsset(models.Model):
                     _("La date de fin de garantie ne peut pas être antérieure à la date d'achat.")
                 )
 
-    # ── Actions ─────────────────────────────────────────────────────────────────
+    # ── Actions ─────────────────────────────────────────────────────────────
     def action_assign(self):
         self.ensure_one()
         return {
@@ -146,20 +147,21 @@ class ItAsset(models.Model):
             'domain': [('asset_id', '=', self.id)],
         }
 
-    # ── Cron ────────────────────────────────────────────────────────────────────
+    # ── Cron ──────────────────────────────────────────────────────────
     @api.model
     def _cron_warranty_expiry_alerts(self):
         """Envoi d'alertes email 30 jours avant fin de garantie."""
         alert_date = date.today() + timedelta(days=30)
         expiring = self.search([
-            ('warranty_end_date', '=', alert_date),
+            ('warranty_end_date', '<=', alert_date),
+            ('warranty_end_date', '>=', date.today()),
             ('state', '!=', 'retired'),
         ])
         for asset in expiring:
             asset.message_post(
-                body=_('La garantie de cet asset expire dans 30 jours (%s). '
+                body=_('La garantie de cet asset expire dans 30 jours (%s).'
                 'Pensez à renouveler le contrat ou planifier un remplacement.')
-                    % asset.warranty_end_date,
+                % asset.warranty_end_date,
                 subject=_('Alerte garantie — %s') % asset.name,
                 message_type='email',
                 subtype_xmlid='mail.mt_comment',

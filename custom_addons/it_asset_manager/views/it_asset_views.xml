@@ -17,7 +17,7 @@
                     <button name="action_retire" string="Retraiter"
                             type="object" invisible="state == 'retired'"/>
                     <field name="state" widget="statusbar"
-                           statusbar_visible="available,assigned,maintenance,retired"/>
+                        statusbar_visible="available,assigned,maintenance,retired"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -50,13 +50,13 @@
                             <field name="purchase_date"/>
                             <field name="warranty_end_date"/>
                             <field name="warranty_status" widget="badge"
-                                   decoration-success="warranty_status == 'valid'"
-                                   decoration-warning="warranty_status == 'expiring'"
-                                   decoration-danger="warranty_status == 'expired'"
-                                   decoration-muted="warranty_status == 'none'"/>
+                                    decoration-success="warranty_status == 'valid'"
+                                    decoration-warning="warranty_status == 'expiring'"
+                                    decoration-danger="warranty_status == 'expired'"
+                                    decoration-muted="warranty_status == 'none'"/>
                             <field name="days_until_warranty_end"
-                                   invisible="warranty_status == 'none'"
-                                   string="Jours restants"/>
+                                    invisible="warranty_status == 'none'"
+                                    string="Jours restants"/>
                         </group>
                         <group string="Financier">
                             <field name="purchase_price"/>
@@ -64,22 +64,35 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Historique des affectations" name="assignments">
-                            <field name="assignment_ids" mode="list">
-                                <list>
+                        <page string="Historique des affectations">
+
+                            <field name="assignment_ids">
+
+                                <tree editable="bottom">
+
                                     <field name="employee_id"/>
+
                                     <field name="date_start"/>
+
                                     <field name="date_end"/>
-                                    <field name="is_active" widget="boolean_toggle"/>
-                                    <button name="action_return_asset" string="Retourner"
-                                            type="object" icon="fa-undo"
+
+                                    <field name="is_active"
+                                        widget="boolean_toggle"/>
+
+                                    <button name="action_return_asset"
+                                            string="Retourner"
+                                            type="object"
+                                            icon="fa-undo"
                                             invisible="not is_active"/>
-                                </list>
+
+                                </tree>
+
                             </field>
+
                         </page>
                         <page string="Notes techniques" name="notes">
                             <field name="notes"
-                                   placeholder="Documentation technique, configuration…"/>
+                                    placeholder="Documentation technique, configuration…"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -88,14 +101,17 @@
         </field>
     </record>
 
-    <!-- LIST -->
-    <record id="view_it_asset_list" model="ir.ui.view">
-        <field name="name">it.asset.list</field>
+    <!-- tree -->
+    <record id="view_it_asset_tree" model="ir.ui.view">
+        <field name="name">it.asset.tree</field>
         <field name="model">it.asset</field>
+
         <field name="arch" type="xml">
-            <list string="Assets IT"
-                  decoration-warning="warranty_status == 'expiring'"
-                  decoration-muted="state == 'retired'">
+
+            <tree string="Assets IT"
+                decoration-warning="warranty_status == 'expiring'"
+                decoration-muted="state == 'retired'">
+
                 <field name="reference"/>
                 <field name="name"/>
                 <field name="category_id"/>
@@ -103,18 +119,25 @@
                 <field name="model_name"/>
                 <field name="serial_number"/>
                 <field name="employee_id"/>
-                <field name="state" widget="badge"
-                       decoration-success="state == 'available'"
-                       decoration-info="state == 'assigned'"
-                       decoration-warning="state == 'maintenance'"
-                       decoration-muted="state == 'retired'"/>
-                <field name="warranty_status" widget="badge"
-                       decoration-success="warranty_status == 'valid'"
-                       decoration-warning="warranty_status == 'expiring'"
-                       decoration-danger="warranty_status == 'expired'"/>
+
+                <field name="state"
+                    widget="badge"
+                    decoration-success="state == 'available'"
+                    decoration-info="state == 'assigned'"
+                    decoration-warning="state == 'maintenance'"
+                    decoration-muted="state == 'retired'"/>
+
+                <field name="warranty_status"
+                    widget="badge"
+                    decoration-success="warranty_status == 'valid'"
+                    decoration-warning="warranty_status == 'expiring'"
+                    decoration-danger="warranty_status == 'expired'"/>
+
                 <field name="warranty_end_date" optional="show"/>
                 <field name="purchase_price" optional="hide"/>
-            </list>
+
+            </tree>
+
         </field>
     </record>
 
@@ -131,19 +154,32 @@
                 <field name="brand"/>
                 <field name="model_name"/>
                 <templates>
-                    <t t-name="card">
-                        <div class="d-flex align-items-center justify-content-between mb-1">
-                            <strong><field name="name"/></strong>
-                            <field name="state" widget="label_selection"
-                                   options="{'classes': {'available': 'success', 'assigned': 'info', 'maintenance': 'warning', 'retired': 'muted'}}"/>
-                        </div>
-                        <div class="text-muted small">
-                            <t t-if="record.brand.value"><t t-esc="record.brand.value"/> </t>
-                            <t t-if="record.model_name.value"><t t-esc="record.model_name.value"/></t>
-                        </div>
-                        <div t-if="record.employee_id.value" class="mt-1">
-                            <i class="fa fa-user me-1"/>
-                            <field name="employee_id"/>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card">
+                            <div class="d-flex align-items-center justify-content-between mb-1">
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+
+                                <field name="state"
+                                    widget="badge"
+                                    decoration-success="state == 'available'"
+                                    decoration-info="state == 'assigned'"
+                                    decoration-warning="state == 'maintenance'"
+                                                    decoration-muted="state == 'retired'"/>
+                            </div>
+
+                            <div class="text-muted small">
+                                <field name="brand"/>
+                                <span> </span>
+                                <field name="model_name"/>
+                            </div>
+
+                            <div class="mt-1" invisible="not employee_id">
+                                <i class="fa fa-user me-1"/>
+                                <field name="employee_id"/>
+                            </div>
+
                         </div>
                     </t>
                 </templates>
@@ -158,7 +194,7 @@
         <field name="arch" type="xml">
             <search string="Rechercher un asset">
                 <field name="name" string="Asset"
-                       filter_domain="['|',('name','ilike',self),('reference','ilike',self)]"/>
+                        filter_domain="['|',('name','ilike',self),('reference','ilike',self)]"/>
                 <field name="serial_number"/>
                 <field name="employee_id"/>
                 <field name="category_id"/>
@@ -189,7 +225,7 @@
     <record id="action_it_asset" model="ir.actions.act_window">
         <field name="name">Assets IT</field>
         <field name="res_model">it.asset</field>
-        <field name="view_mode">kanban,list,form</field>
+        <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="view_it_asset_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Ajoutez votre premier asset IT</p>
