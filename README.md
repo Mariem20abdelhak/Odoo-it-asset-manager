@@ -1,37 +1,93 @@
-# Odoo
+# 📦 IT Asset Manager (Odoo Module)
 
-[![Build Status](https://runbot.odoo.com/runbot/badge/flat/1/master.svg)](https://runbot.odoo.com/runbot)
-[![Documentation](https://img.shields.io/badge/master-docs-875A7B.svg?style=flat&colorA=8F8F8F)](https://www.odoo.com/documentation/17.0)
-[![Help](https://img.shields.io/badge/master-help-875A7B.svg?style=flat&colorA=8F8F8F)](https://www.odoo.com/forum/help-1)
-[![Nightly Builds](https://img.shields.io/badge/master-nightly-875A7B.svg?style=flat&colorA=8F8F8F)](https://nightly.odoo.com/)
+![Odoo](https://img.shields.io/badge/Odoo-16.0-875A7B?logo=odoo&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?logo=postgresql&logoColor=white)
+![License](https://img.shields.io/badge/License-Educational-lightgrey)
 
-Odoo is a suite of web based open source business apps.
+---
 
-The main Odoo Apps include an [Open Source CRM](https://www.odoo.com/page/crm),
-[Website Builder](https://www.odoo.com/app/website),
-[eCommerce](https://www.odoo.com/app/ecommerce),
-[Warehouse Management](https://www.odoo.com/app/inventory),
-[Project Management](https://www.odoo.com/app/project),
-[Billing &amp; Accounting](https://www.odoo.com/app/accounting),
-[Point of Sale](https://www.odoo.com/app/point-of-sale-shop),
-[Human Resources](https://www.odoo.com/app/employees),
-[Marketing](https://www.odoo.com/app/social-marketing),
-[Manufacturing](https://www.odoo.com/app/manufacturing),
-[...](https://www.odoo.com/)
+## 🚀 Overview
 
-Odoo Apps can be used as stand-alone applications, but they also integrate seamlessly so you get
-a full-featured [Open Source ERP](https://www.odoo.com) when you install several Apps.
+A custom **Odoo ERP module** for managing IT assets lifecycle, including assignment, tracking, and return workflows.
 
-## Getting started with Odoo
+It provides a structured way to manage company equipment (laptops, desktops, peripherals) and their assignment to employees.
 
-For a standard installation please follow the [Setup instructions](https://www.odoo.com/documentation/17.0/administration/install/install.html)
-from the documentation.
 
-To learn the software, we recommend the [Odoo eLearning](https://www.odoo.com/slides),
-or [Scale-up, the business game](https://www.odoo.com/page/scale-up-business-game).
-Developers can start with [the developer tutorials](https://www.odoo.com/documentation/17.0/developer/howtos.html).
+### 🖥️ Asset Management
+- Create and track IT assets
+- Store key metadata (serial number, type, status)
 
-## Security
+### 👤 Employee Assignment
+- Assign assets to employees
+- Track assignment period (`date_start`, `date_end`)
 
-If you believe you have found a security issue, check our [Responsible Disclosure page](https://www.odoo.com/security-report)
-for details and get in touch with us via email.
+### 🔁 Return Workflow
+- One-click return asset action
+- Automatic status update
+
+### 🔘 Status Control
+- Active / Inactive toggle
+- Real-time lifecycle tracking
+
+---
+
+## 🧱 Architecture
+Odoo 17 Framework
+│
+├── Python ORM (models)
+├── XML Views (UI layer)
+├── PostgreSQL (data layer)
+└── Business Logic (server actions)
+
+
+
+---
+
+## 📁 Project Structure
+
+it_asset_manager/
+│
+├── models/
+│ └── it_asset.py
+│
+├── views/
+│ └── it_asset_views.xml
+│
+├── security/
+│ └── ir.model.access.csv
+│
+├── static/
+│ └── description/
+│ └── icon.png
+│
+├── docs/
+│ ├── screens/
+│ │ ├── asset_list.png
+│ │ ├── asset_form.png
+│
+├── manifest.py
+└── README.md
+---
+
+## 🖼️ Screenshots
+
+### 📋 Asset List View
+![Asset List](docs/screens/list1.png)
+![Asset List](docs/screens/list2.png)
+
+### 📝 Asset Form View
+![Asset Form](docs/screens/form1.png)
+![Asset Form](docs/screens/form2.png)
+![Asset Form](docs/screens/form3.png)
+
+### 🔄 Assignment Dashboard
+![Workflow](docs/screens/Tableaudeboard.png)
+
+---
+
+## ⚙️ Installation
+
+```bash
+git clone https://github.com/USERNAME/it_asset_manager.git
+cd it_asset_manager
