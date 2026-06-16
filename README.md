@@ -69,25 +69,74 @@ it_asset_manager/
 ├── manifest.py
 └── README.md
 ---
-
 ## 🖼️ Screenshots
 
 ### 📋 Asset List View
-![Asset List](docs/screens/list1.png)
-![Asset List](docs/screens/list2.png)
 
-### 📝 Asset Form View
-![Asset Form](docs/screens/form1.png)
-![Asset Form](docs/screens/form2.png)
-![Asset Form](docs/screens/form3.png)
+![Asset List 1](docs/screens/list1.png)
 
-### 🔄 Assignment Dashboard
-![Workflow](docs/screens/Tableaudeboard.png)
+![Asset List 2](docs/screens/list2.png)
 
 ---
 
-## ⚙️ Installation
+### 📝 Asset Form View
 
-```bash
+![Asset Form 1](docs/screens/form1.png)
+
+![Asset Form 2](docs/screens/form2.png)
+
+![Asset Form 3](docs/screens/form3.png)
+
+---
+
+### 🔄 Assignment Dashboard
+
+![Workflow](docs/screens/Tableaudeboard.png)
+
+---
+## ⚙️ Installatio
+
 git clone https://github.com/USERNAME/it_asset_manager.git
 cd it_asset_manager
+
+### Move to Odoo addons
+cp -r it_asset_manager /odoo/custom_addons/
+### Restart Odoo & update module
+./odoo-bin -c odoo.conf -u it_asset_manager
+🧠 Core Data Model
+### Field	Type	Description
+name	Char	Asset name
+employee_id	Many2one	Assigned employee
+date_start	Date	Assignment start
+date_end	Date	Assignment end
+is_active	Boolean	Asset state
+### 🔧 Business Logic
+action_return_asset()
+Unassigns employee
+Marks asset as returned
+Updates lifecycle state
+### 📈 Roadmap
+QR Code asset tagging 📱
+Maintenance scheduling 🛠️
+Depreciation tracking 📉
+Dashboard analytics 📊
+Asset category hierarchy 🗂️
+### 🧪 Fixes Implemented
+Fixed Odoo view validation error (missing date_start)
+Synchronized XML views with ORM model
+Stabilized module installation process
+### 👨‍💻 Author
+
+Mariem
+Software Developer | Odoo | Cybersecurity | AI Systems
+
+### ⭐ Repository Goal
+
+This project demonstrates:
+
+ERP customization skills (Odoo)
+Backend Python ORM design
+Business workflow modeling
+Production-grade module structuring
+
+
